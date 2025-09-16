@@ -17,6 +17,9 @@ class MinimalSubscriber(Node):
         super().__init__('serial_ctrl')
         
         self.position = []
+        # TODO: Should be a parameter
+        self.joint_vel = 1000
+        self.joint_acc = 30
         
         self.subscription = self.create_subscription(
             JointState,
@@ -24,24 +27,27 @@ class MinimalSubscriber(Node):
             self.listener_callback,
             10)
         self.subscription  # prevent unused variable warning
-    
-    def posGet(self, radInput, direcInput, multiInput):
-        if radInput == 0:
-            return 2047
-        else:
-            getPos = int(2047 + (direcInput * radInput / 3.1415926 * 2048 * multiInput) + 0.5)
-            return getPos
+
+
+    def getJointAngle(self, angleInput, calibOffset, direction=1):
+        angle = calibOffset + (angleInput *180/3.1415926 * direction)
+
+        return angle
+
 
     def listener_callback(self, msg):
         a = msg.position
-        
-        join1 = self.posGet(a[0], -1, 1)
-        join2 = self.posGet(a[1], -1, 3)
-        join3 = self.posGet(a[2], -1, 1)
-        join4 = self.posGet(a[3],  1, 1)
-        join5 = self.posGet(a[4], -1, 1)
-        
-        data = json.dumps({'T':3,'P1':join1,'P2':join2,'P3':join3,'P4':join4,'P5':join5,'S1':0,'S2':0,'S3':0,'S4':0,'S5':0,'A1':60,'A2':60,'A3':60,'A4':60,'A5':60})
+
+        # TODO: Offsets has to come from calibration file
+        joint1 = self.getJointAngle(a[0], 182.5488, -1)
+        joint2 = self.getJointAngle(a[1], -4.21875, -1)
+        joint3 = self.getJointAngle(a[2], -3.6914, -1)
+        joint4 = self.getJointAngle(a[3], 1.66992, -1)
+        joint5 = self.getJointAngle(a[4], 185.888, -1)
+
+        data = json.dumps({'T':1,'P1':joint1,'P2':joint2,'P3':joint3,'P4':joint4,'P5':joint5,
+                           'S1':self.joint_vel,'S2':self.joint_vel,'S3':self.joint_vel,'S4':self.joint_vel,'S5':self.joint_vel,
+                           'A1':self.joint_acc,'A2':self.joint_acc,'A3':self.joint_acc,'A4':self.joint_acc,'A5':self.joint_acc})
         
         ser.write(data.encode())
         
