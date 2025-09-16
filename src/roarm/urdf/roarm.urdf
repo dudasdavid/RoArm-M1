@@ -134,10 +134,10 @@
 
   <joint name="L1_to_L2" type="revolute">
     <axis xyz="1 0 0"/>
-    <limit effort="1000.0" lower="-1.0467" upper="1.0467" velocity="0.5"/>
+    <limit effort="1000.0" lower="-1.8326" upper="0.2617" velocity="0.5"/>
     <parent link="l1_link"/>
     <child link="l2_link"/>
-    <origin xyz="0 0.041051 0.0534"/>
+    <origin xyz="0 0.041051 0.0534" rpy="0.7854 0 0"/>
   </joint>
 
   <joint name="L2_to_L3" type="revolute">
