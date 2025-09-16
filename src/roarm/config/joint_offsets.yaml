@@ -1,0 +1,7 @@
+serial_ctrl_py:
+    ros__parameters:
+        joint1_offset: 2.5488
+        joint2_offset: -4.21875
+        joint3_offset: -2.46094
+        joint4_offset: 2.28516
+        joint5_offset: 3.33984
