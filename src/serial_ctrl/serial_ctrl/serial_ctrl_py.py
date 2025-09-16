@@ -45,7 +45,7 @@ class MinimalSubscriber(Node):
         joint4 = self.getJointAngle(a[3], 1.66992, -1)
         joint5 = self.getJointAngle(a[4], 185.888, -1)
 
-        data = json.dumps({'T':1,'P1':joint1,'P2':joint2,'P3':joint3,'P4':joint4,'P5':joint5,
+        data = json.dumps({'T':1,'P1':f"{joint1:.3f}",'P2':f"{joint2:.3f}",'P3':f"{joint3:.3f}",'P4':f"{joint4:.3f}",'P5':f"{joint5:.3f}",
                            'S1':self.joint_vel,'S2':self.joint_vel,'S3':self.joint_vel,'S4':self.joint_vel,'S5':self.joint_vel,
                            'A1':self.joint_acc,'A2':self.joint_acc,'A3':self.joint_acc,'A4':self.joint_acc,'A5':self.joint_acc})
         
