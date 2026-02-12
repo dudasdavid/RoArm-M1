@@ -24,6 +24,7 @@ class MinimalSubscriber(Node):
         self.joint_acc = 100
         self.critical_vel = 800 # joint 3 has a critical vel due to gravity and inertia
         self.critical_acc = 30  # joint 3 has a critical acc due to gravity and inertia
+        self.gripper_open_offset = 50
         
         self.subscription = self.create_subscription(
             JointState,
@@ -61,11 +62,11 @@ class MinimalSubscriber(Node):
         a = msg.position
 
         # TODO: Offsets has to come from calibration file
-        joint1 = self.getJointAngle(a[0], 182.5488-4.35, -1)
-        joint2 = self.getJointAngle(a[1], -4.21875-4, -1)
-        joint3 = self.getJointAngle(a[2], -3.6914-9, -1)
-        joint4 = self.getJointAngle(a[3], 1.66992-2, -1)
-        joint5 = self.getJointAngle(a[4], 185.888, -1)
+        joint1 = self.getJointAngle(a[0], 178, -1)
+        joint2 = self.getJointAngle(a[1], -2.21875, -1)
+        joint3 = self.getJointAngle(a[2], -12.6914, -1)
+        joint4 = self.getJointAngle(a[3], -0.4, -1)
+        joint5 = self.getJointAngle(a[4], 185.888+self.gripper_open_offset, -1)
 
         if self.joint_vel > self.critical_vel:
             critical_joint_vel = self.critical_vel
